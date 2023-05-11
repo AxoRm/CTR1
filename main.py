@@ -1,6 +1,6 @@
+from deep_translator import GoogleTranslator
 import re
 import time
-from deep_translator import GoogleTranslator
 en_constants = ['y', 'd', 'h', 'm', 's', 'ms']
 ru_constants = ['г', 'д', 'ч', 'м', 'с', 'мс']
 replace_between_symbol = True
