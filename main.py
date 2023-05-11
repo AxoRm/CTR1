@@ -5,10 +5,10 @@ from deep_translator import GoogleTranslator
 
 en_constants = ['y', 'd', 'h', 'm', 's', 'ms']
 ru_constants = ['г', 'д', 'ч', 'м', 'с', 'мс']
-replace_between_symbol = True
-file_name = 'example.txt'
-to_language = 'ru'
-from_language = 'en'
+between = True
+FILE = 'example.txt'
+TO = 'ru'
+FROM = 'en'
 
 
 def get_string(text):
@@ -69,7 +69,7 @@ def get_translate(text):
         temp += text[i]
     text = temp
     if has_english(text):
-        return GoogleTranslator(source=from_language, target=to_language).translate(text)
+        return GoogleTranslator(source=FROM, target=TO).translate(text)
     return text
 
 
@@ -90,7 +90,7 @@ def has_english(text):
 
 
 start_time = time.time()
-with open(file_name, encoding='utf-8') as f:
+with open(FILE, encoding='utf-8') as f:
     lines = f.readlines()
 lines_formatted = []
 translated_lines = []
@@ -179,7 +179,7 @@ for count in range(len(lines)):
             if not has_russian(match_tr):
                 match = match_tr
             text_trans = replace_substring(text_trans, match_tr, match)
-        if replace_between_symbol:
+        if between:
             results = re.findall(r'\$([^$]*)\$', text_trans)
             for result in results:
                 result_translated = str(get_translate(result))
@@ -188,7 +188,7 @@ for count in range(len(lines)):
                 text_trans = text_trans.replace('$' + result + '$', '$' + result_translated + '$')
         lines[count] = lines[count].replace(text_original, text_trans)
     translated_lines.append(lines[count])
-with open(file_name, 'w', encoding='utf-8') as f:
+with open(FILE, 'w', encoding='utf-8') as f:
     f.writelines(translated_lines)
 end_time = time.time()
 elapsed_time = end_time - start_time
