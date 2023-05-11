@@ -1,11 +1,10 @@
 import re
 import time
 from deep_translator import GoogleTranslator
-
 en_constants = ['y', 'd', 'h', 'm', 's', 'ms']
 ru_constants = ['г', 'д', 'ч', 'м', 'с', 'мс']
 replace_between_symbol = True
-file_name = 'help_en.yml'
+file_name = 'example.txt'
 to_language = 'ru'
 from_language = 'en'
 def get_string(text):

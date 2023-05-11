@@ -1,0 +1,6 @@
+Example:
+    text_1: "Hello world %worldType%"
+    text_1: |
+     - "Starting"
+     - "new Season $number$"
+     - "with name %name%"
