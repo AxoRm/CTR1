@@ -78,10 +78,10 @@ def get_translate(text):
     return text
 
 
-def replace_substring(text_trans, match_tr, match):
+def replace_substring(TEXT_TR, match_tr, match):
     if any(symbol in match_tr for symbol in '&{}[]-'):
         match_tr = f'%{match_tr}%'
-    return text_trans.replace(match_tr, match)
+    return TEXT_TR.replace(match_tr, match)
 
 
 def has_russian(text):
@@ -149,51 +149,51 @@ for count in range(len(lines)):
             translated_lines.append(lines[count])
             continue
         text = str(text).strip()
-        text_original = text
+        original = text
         temp = ''
         mapping = {'{': '%{', '}': '}%', '[': '%[', ']': ']%'}
         temp = ""
         i = 0
-        b = False
-        default = ''
+        flag = False
+        DEF = ''
         while i < len(text):
             if text[i] in mapping:
-                if not b:
+                if not flag:
                     temp += mapping[text[i]]
-                    b = True
-                    default = text[i]
+                    flag = True
+                    DEF = text[i]
                 else:
-                    if text[i] == list(mapping.keys())[list(mapping.keys()).index(default) + 1]:
-                        b = False
-                        temp += list(mapping.values())[list(mapping.keys()).index(default) + 1]
+                    if text[i] == list(mapping.keys())[list(mapping.keys()).index(DEF) + 1]:
+                        flag = False
+                        temp += list(mapping.values())[list(mapping.keys()).index(DEF) + 1]
                     else:
                         temp += text[i]
-            elif text[i] == '&' and not b:
+            elif text[i] == '&' and not flag:
                 temp += '%&' + text[i + 1] + '%'
                 i += 1
-            elif text[i] == '-' and not b:
+            elif text[i] == '-' and not flag:
                 temp += '%-%'
             else:
                 temp += text[i]
             i += 1
         text = temp
         matches = re.findall(r"%([^%]*)%", text)
-        text_trans = str(get_translate(text))
-        text_trans = text_trans.replace('%%%', '%%')
-        matches_tr = list(re.findall(r"%([^%]*)%", text_trans))
+        TEXT_TR = str(get_translate(text))
+        TEXT_TR = TEXT_TR.replace('%%%', '%%')
+        matches_tr = list(re.findall(r"%([^%]*)%", TEXT_TR))
 
         for match_tr, match in zip(matches_tr, matches):
             if not has_russian(match_tr):
                 match = match_tr
-            text_trans = replace_substring(text_trans, match_tr, match)
+            TEXT_TR = replace_substring(TEXT_TR, match_tr, match)
         if between:
-            results = re.findall(r'\$([^$]*)\$', text_trans)
+            results = re.findall(r'\$([^$]*)\$', TEXT_TR)
             for result in results:
-                result_translated = str(get_translate(result))
+                RESULT = str(get_translate(result))
                 if not ' ' in result:
-                    result_translated = result_translated.replace(' ', '_')
-                text_trans = text_trans.replace('$' + result + '$', '$' + result_translated + '$')
-        lines[count] = lines[count].replace(text_original, text_trans)
+                    RESULT = RESULT.replace(' ', '_')
+                TEXT_TR = TEXT_TR.replace('$' + result + '$', '$' + RESULT + '$')
+        lines[count] = lines[count].replace(original, TEXT_TR)
     translated_lines.append(lines[count])
 with open(FILE, 'w', encoding='utf-8') as f:
     f.writelines(translated_lines)
