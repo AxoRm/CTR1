@@ -37,12 +37,14 @@ def check_string(line):
     line += ' '
     for j in range(len(line)):
         if (line[j] == '\'' or line[j] == '\"') and (
-                line[j - 1] == ' ' or line[j - 1] == '=' or line[j - 1] == ':'):
+                line[j - 1] == ' ' or line[j - 1] == '='
+                or line[j - 1] == ':'):
             pos1 = j
             break
     for j in range(len(line) - 1, pos1, -1):
         if (line[j] == '\'' or line[j] == '\"') and (
-                line[j - 1] in [' ', '.', '!', '?', ']', '}', ')', '"'] or '\n' in line[j + 1] or ' ' in line[j + 1]):
+                line[j - 1] in [' ', '.', '!', '?', ']', '}', ')', '"']
+                or '\n' in line[j + 1] or ' ' in line[j + 1]):
             pos2 = j
             break
     return pos1, pos2
@@ -51,8 +53,11 @@ def check_string(line):
 def check_is_word(text, index):
     text = '  ' + text + '   '
     index += 2
-    if (text[index - 1] == ' ' or text[index - 1] == '%' or text[index - 3] == '&') and (
-            text[index + 1] == ' ' or text[index + 1] == '%' or text[index + 2] == '&'):
+    if (text[index - 1] == ' '
+        or text[index - 1] == '%'
+        or text[index - 3] == '&') and (
+            text[index + 1] == ' '
+            or text[index + 1] == '%' or text[index + 2] == '&'):
         return True
     return False
 
@@ -125,8 +130,10 @@ for count in range(len(lines)):
     if count % 5 == 0:
         print(format(count * 100 / len(lines), '.1f'), '%', sep='')
     text = get_string(lines[count])
-    if (comment_block or text is not None or ': |' in lines[count]) and lines[count] != '\n' and all(
-            tag not in str(text) for tag in ['<div class=', '<span style=', '<p>', '</p>']):
+    if (comment_block or text is not None
+        or ': |' in lines[count]) and lines[count] != '\n' and all(
+        tag not in str(text) for tag
+        in ['<div class=', '<span style=', '<p>', '</p>']):
         if comment_block:
             lines[count] += ' '
             if re.search(r'\S', lines[count]).start() < block_index:
