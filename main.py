@@ -1,12 +1,16 @@
-from deep_translator import GoogleTranslator
 import re
 import time
+
+from deep_translator import GoogleTranslator
+
 en_constants = ['y', 'd', 'h', 'm', 's', 'ms']
 ru_constants = ['г', 'д', 'ч', 'м', 'с', 'мс']
 replace_between_symbol = True
 file_name = 'example.txt'
 to_language = 'ru'
 from_language = 'en'
+
+
 def get_string(text):
     pos1, pos2 = -1, -1
     c = ''
@@ -68,6 +72,7 @@ def get_translate(text):
         return GoogleTranslator(source=from_language, target=to_language).translate(text)
     return text
 
+
 def replace_substring(text_trans, match_tr, match):
     if any(symbol in match_tr for symbol in '&{}[]-'):
         match_tr = f'%{match_tr}%'
@@ -82,6 +87,7 @@ def has_russian(text):
 def has_english(text):
     pattern = re.compile("[a-zA-Z]+")
     return bool(pattern.search(text))
+
 
 start_time = time.time()
 with open(file_name, encoding='utf-8') as f:
@@ -190,4 +196,5 @@ elapsed_time = end_time - start_time
 minutes, seconds = divmod(elapsed_time, 60)
 seconds, milliseconds = divmod(seconds, 1)
 
-print(f"Функция выполнилась за {int(minutes):02d} минут {int(seconds):02d} секунд {int(milliseconds*1000):03d} миллисекунд")
+print(
+    f"Функция выполнилась за {int(minutes):02d} минут {int(seconds):02d} секунд {int(milliseconds * 1000):03d} миллисекунд")
