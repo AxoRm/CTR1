@@ -1,6 +1,6 @@
 Example:
-    text_1: "Hello world %worldType%"
+    text_1: "Привет, мир %worldType%"
     text_1: |
-     - "Starting"
-     - "new Season $number$"
-     - "with name %name%"
+     - "Запуск"
+      - "новый сезон $число$"
+      - "с именем %name%" 

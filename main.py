@@ -97,6 +97,8 @@ def has_english(text):
 start_time = time.time()
 with open(FILE, encoding='utf-8') as f:
     lines = f.readlines()
+if len(lines) == 0:
+    print("You try to translate file without any strings")
 lines_formatted = []
 translated_lines = []
 i = 0
